@@ -9,38 +9,38 @@ The forum has a frontend and backend component with a RESTful API
 
 POST
 <ul>
-  <li>users/register</li> - Registers a user to the forum
-  <li>users/login</li>  - Login a user to the forum
-  <li>users/forgot</li> - Takes an email address and sends an email with a token for reseting a password
-  <li>users/reset</li> - Resets to a new password
+  <li>users/register -  Registers a user to the forum</li>
+  <li>users/login  - Login a user to the forum</li>
+  <li>users/forgot  - Takes an email address and sends an email with a token for reseting a password</li>
+  <li>users/reset - Resets to a new password</li> 
 </ul>
 
 GET
 <ul>
-  <li>check</li> - checks if a user is authorized to access pages
+  <li>users/check  - checks if a user is authorized to access pages</li>
 </ul>
 
 <h3>Questions</h3>
 
 POST
 <ul>
-  <li>questions/submit</li>  - Submits a question to teh forum
+  <li>questions/submit   - Submits a question to the forum</li>
 </ul>
 
 GET
 <ul>
-  <li>questions/getall</li>  - gets the title and submitter of all the questions in the forum
-  <li>questions/getsingle?questionid=1</li> - get details (title, desc, submitter) of a single question 
+  <li>questions/getall   - gets the title and submitter of all the questions in the forum</li>
+  <li>questions/getsingle?questionid=1 -  get details (title, desc, submitter) of a single question </li>
 </ul>
 
 <h3>QAnswers</h3>
 
 POST
 <ul>
-  <li>answers/postanswer</li> - posts an answer for a single question
+  <li>answers/postanswer  - posts an answer for a single question</li>
 </ul>
 
 GET
 <ul>
-  <li>answers/getanswers?questionsid=1</li> -  get all the answers posted for a single question 
+  <li>answers/getanswers?questionsid=1  -  get all the answers posted for a single question</li> 
 </ul>
