@@ -29,8 +29,9 @@ POST
 
 GET
 <ul>
-  <li>questions/getall   - gets the title and submitter of all the questions in the forum</li>
-  <li>questions/getsingle?questionid=1 -  get details (title, desc, submitter) of a single question </li>
+  <li>questions/getallquestion   - gets the title and submitter of all the questions in the forum</li>
+  <li>questions/getsinglequestion?questionid=1 -  get details (title, desc, submitter) of a single question </li>
+  <li>questions/searchquestions - searchs questions by questionID</li>
 </ul>
 
 <h3>QAnswers</h3>
