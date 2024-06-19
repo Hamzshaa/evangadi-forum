@@ -1,14 +1,21 @@
+import {
+  getAllQuestions,
+  getSingleQuestion,
+  postQuestion,
+  searchQuestions,
+  favoriteQuestions,
+  getFavoriteQuestions,
+} from "../controllers/questionController.js";
+import express from "express";
+import authMiddleware from "../middleware/authMiddleware.js";
 
-const {getAllquestion,getsinglequesion,postQuestion,searchQuestions}=require("../controller/QuestionController")
-const express =require("express");
-const router=express.Router()
+const router = express.Router();
 
-
-
-
-router.get("/", getAllquestion );
-router.get("/:id", getsinglequesion);
+router.get("/", getAllQuestions);
+router.put("/favorite/:questionId", authMiddleware, favoriteQuestions);
+router.get("/favorite", authMiddleware, getFavoriteQuestions);
+router.get("/:id", getSingleQuestion);
 router.post("/", postQuestion);
 router.get("/search/:searchQuery", searchQuestions);
 
-module.exports=router
+export default router;
