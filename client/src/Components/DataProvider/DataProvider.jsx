@@ -3,37 +3,31 @@ import axiosInstance from "../../axiosConfig";
 
 export const AppState = createContext();
 
-function DataProvider ({children})  {
+function DataProvider({ children }) {
+  const [user, setUser] = useState({ username: "" });
 
-    const [user, setUser] = useState({})
-
-    async function checkUser(){
-        try {
-            const {data} = await axiosInstance('/users/check',{
-                headers:{
-                Authorization: "Bearer " + localStorage.getItem("accessToken")
-                }
-            })
-            console.log(data);
-            setUser(data)
-            console.log(user)
-            console.log("try block")
-            } catch (error) {
-                console.log(error.response);
-                setUser()
-        }
+  async function checkUser() {
+    try {
+      const { data } = await axiosInstance("/users/check", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        },
+      });
+      console.log(data);
+      setUser(data);
+      console.log(user);
+      console.log("try block");
+    } catch (error) {
+      console.log(error.response);
+      setUser();
     }
+  }
 
-    useEffect(() => {
-        checkUser()
-    }, []);
+  useEffect(() => {
+    checkUser();
+  }, []);
 
-	return (
-        
-		<AppState.Provider value={{user}}>
-			{children}
-		</AppState.Provider>
-	);
-};
+  return <AppState.Provider value={{ user }}>{children}</AppState.Provider>;
+}
 
-export default DataProvider
+export default DataProvider;

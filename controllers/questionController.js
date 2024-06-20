@@ -38,7 +38,8 @@ export const postQuestion = async (req, res) => {
 
 export const getAllQuestions = async (req, res) => {
   try {
-    const [questions] = await dbConn.query("SELECT * FROM questions");
+      const [questions] = await dbConn.query("SELECT t1.*, t2.username FROM questions t1 LEFT JOIN users t2 ON t1.userid = t2.userid")
+      
     res.send(questions);
   } catch {
     res.status(500).send("faild to connection");
