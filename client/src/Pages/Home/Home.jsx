@@ -60,27 +60,19 @@ export default function Home() {
     try {
       const { data } = await axios.get(`/questions/search/${e.target.value}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
 
-      // const updatedQuestions = await Promise.all(
-      //   data.map(async (question) => {
-      //     const username = await getUsername(question.userid);
-      //     return { ...question, username };
-      //   })
-      // );
+      const searchTerm = e.target.value;
 
-      // const searchTerm = e.target.value;
+      data.forEach((question) => {
+        const edited = question.title
+          .split(searchTerm.trim())
+          .join(`<span style="color: orange !important;">${searchTerm}</span>`);
+        question.title = edited;
+      });
 
-      // updatedQuestions.forEach((question) => {
-      //   const edited = question.title
-      //     .split(searchTerm.trim())
-      //     .join(`<span style="color: orange !important;">${searchTerm}</span>`);
-      //   question.title = edited;
-      // });
-
-      // setQuestions(updatedQuestions);
       setQuestions(data);
     } catch (error) {
       console.log(error);
@@ -92,18 +84,11 @@ export default function Home() {
       try {
         const { data } = await axios.get("/questions/favorite", {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
         });
 
-        // const updatedQuestions = await Promise.all(
-        //   data.map(async (question) => {
-        //     const username = await getUsername(question.userid);
-        //     return { ...question, username };
-        //   })
-        // );
-
-        // setQuestions(updatedQuestions);
+        console.log(data);
         setQuestions(data);
 
         setIsFetchingFavorite(true);

@@ -38,11 +38,30 @@ export const postQuestion = async (req, res) => {
 
 export const getAllQuestions = async (req, res) => {
   try {
-      const [questions] = await dbConn.query("SELECT t1.*, t2.username FROM questions t1 LEFT JOIN users t2 ON t1.userid = t2.userid")
-      
-    res.send(questions);
-  } catch {
-    res.status(500).send("faild to connection");
+    const [questions] = await dbConn.query(
+      "SELECT t1.*, t2.username FROM questions t1 LEFT JOIN users t2 ON t1.userid = t2.userid"
+    );
+
+    const promises = questions.map(async (question) => {
+      const favoriteQuery = `
+        SELECT COUNT(*) AS is_favorite
+        FROM favorites
+        WHERE question_id = ? AND user_id = ?;
+      `;
+      const [favorites] = await dbConn.query(favoriteQuery, [
+        question.id,
+        req.user.userid,
+      ]);
+
+      question.is_favorite = favorites[0].is_favorite === 1;
+      return question;
+    });
+
+    const questionsWithFavoriteStatus = await Promise.all(promises);
+    res.send(questionsWithFavoriteStatus);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Failed to fetch questions");
   }
 };
 
@@ -60,10 +79,13 @@ export const getSingleQuestion = async (req, res) => {
 };
 
 export const searchQuestions = async (req, res) => {
+  const { searchQuery } = req.query;
+
   const [questions] = await dbConn.query(
-    "SELECT * FROM questions WHERE title LIKE ?",
+    "SELECT t1.*, t2.username FROM questions t1 LEFT JOIN users t2 ON t1.userid = t2.userid WHERE title LIKE ?",
     [`%${req.params.searchQuery}%`]
   );
+
   res.status(200).send(questions);
 };
 
@@ -109,17 +131,15 @@ export const favoriteQuestions = async (req, res) => {
 };
 
 export const getFavoriteQuestions = async (req, res) => {
+  // const [favoriteQuestions] = await dbConn.query(
+  //   "SELECT * FROM questions INNER JOIN favorites ON questions.id = favorites.question_id WHERE favorites.user_id = ?",
+  //   [req.user.userid]
+  // );
+
   const [favoriteQuestions] = await dbConn.query(
-    "SELECT * FROM questions INNER JOIN favorites ON questions.id = favorites.question_id WHERE favorites.user_id = ?",
+    "SELECT t1.*, t2.username FROM questions t1 LEFT JOIN users t2 ON t1.userid = t2.userid WHERE id IN (SELECT question_id FROM favorites WHERE user_id = ?)",
     [req.user.userid]
   );
 
   res.status(200).send(favoriteQuestions);
 };
-
-// module.exports = {
-//   postQuestion,
-//   getAllquestion,
-//   getsinglequesion,
-//   searchQuestions,
-// };

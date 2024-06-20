@@ -122,4 +122,6 @@
 .wordCounter {
   height: 2px;
   align-self: self-start;
+  margin-left: 0;
+  padding: 0;
 }

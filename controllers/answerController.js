@@ -36,15 +36,15 @@ export const getAnswers = async (req, res) => {
     return res.status(404).send("Question not found");
   }
 
-  // const [answers] = await dbConn.query(
-  //   "SELECT t1.*, t2.username FROM answers t1 LEFT JOIN users t2 ON t1.userid = t2.userid where questionid = ?",
-  //   [req.params.questionId]
-  // );
-
   const [answers] = await dbConn.query(
-    "SELECT * FROM answers WHERE questionid = ?",
+    "SELECT t1.*, t2.username FROM answers t1 LEFT JOIN users t2 ON t1.userid = t2.userid where questionid = ?",
     [req.params.questionId]
   );
+
+  // const [answers] = await dbConn.query(
+  //   "SELECT * FROM answers WHERE questionid = ?",
+  //   [req.params.questionId]
+  // );
 
   answers.sort((a, b) => b.answerid - a.answerid);
 

@@ -29,6 +29,10 @@
   transition: all 0.3s ease;
 }
 
+.button a {
+  color: white;
+}
+
 .username {
   font-size: 1.2rem;
   font-weight: 600;
@@ -53,6 +57,11 @@
   justify-content: space-between;
   padding: 1rem 0;
   align-items: end;
+}
+
+.searchWrapper > p {
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 
 .searchWrapper form {
