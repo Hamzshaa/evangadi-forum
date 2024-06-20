@@ -1,9 +1,13 @@
+import React from 'react'
+import Routing from './components/Routing/Routing'
+
 function App() {
+
   return (
     <>
-      <div>Evangadi Forum</div>
+      <Routing />
     </>
-  );
+    )
 }
 
-export default App;
+export default App
